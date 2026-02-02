@@ -1,0 +1,85 @@
+# Contest Calendar
+
+A Python script that automatically syncs upcoming programming contests from Codeforces to your Google Calendar.
+
+## Features
+
+- Fetches upcoming contests from the Codeforces API.
+- Adds contests as events to your Google Calendar.
+- Avoids creating duplicate events.
+- Timezone correction for accurate event scheduling.
+- Automated daily sync using GitHub Actions.
+
+## How it Works
+
+The script fetches contest data from the Codeforces API, authenticates with the Google Calendar API using a service account, and then adds the upcoming contests as events to the specified Google Calendar. A GitHub Actions workflow automates this process, running the script every hour to ensure your calendar is always up-to-date.
+
+## Setup and Usage
+
+### Prerequisites
+
+- Python 3.6+
+- A Google Cloud Platform (GCP) account with the Google Calendar API enabled.
+- A Google service account with permissions to access your calendar.
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/contest-calendar.git
+   cd contest-calendar
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Configuration
+
+1. **Google Calendar API:**
+
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
+   - Enable the "Google Calendar API" for your project.
+   - Create a service account and download the JSON key file.
+
+2. **Share your calendar:**
+
+   - Open your Google Calendar.
+   - In the left sidebar, find the calendar you want to add events to, click the three dots, and select "Settings and sharing."
+   - Under "Share with specific people," add the service account's email address and give it "Make changes to events" permission.
+
+3. **Set up the environment variable:**
+
+   - The script uses an environment variable `GCP_SA_KEY` to authenticate with the Google Calendar API.
+   - Set the value of this variable to the contents of the JSON key file you downloaded in step 1.
+
+4. **Update `main.py`:**
+
+   - Open `main.py` and change the `TARGET_CALENDAR_ID` to the ID of the calendar you want to add events to (usually your email address).
+
+### Running the script manually
+
+To run the script manually, execute the following command:
+
+```bash
+python main.py
+```
+
+## Automation
+
+The project includes a GitHub Actions workflow (`.github/workflows/daily_sync.yml`) that automates the process of syncing contests to your calendar. The workflow runs every hour, checks for new contests, and adds them to your calendar.
+
+To use the automation, you need to add the `GCP_SA_KEY` as a secret to your GitHub repository.
+
+1. In your GitHub repository, go to "Settings" > "Secrets and variables" > "Actions".
+2. Click "New repository secret."
+3. Name the secret `GCP_SA_KEY` and paste the contents of your service account's JSON key file as the value.
+
+The workflow will now run automatically. You can also trigger it manually from the "Actions" tab in your repository.
+
+## Contributing
+
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or create a pull request.
