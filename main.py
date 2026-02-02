@@ -21,6 +21,22 @@ def main():
     # 2. Authenticate Google Calendar
     try:
         service = google_calendar.get_calendar_service()
+        
+        # --- DEBUGGING IDENTITY ---
+        creds = google_calendar.auth_service_account()
+        sa_email = creds.service_account_email
+        print(f"Authenticated as Service Account: {sa_email}")
+        
+        target = config.TARGET_CALENDAR_ID
+        print(f"Target Calendar ID: {target[:3]}...{target[-10:] if len(target) > 10 else ''} (Length: {len(target)})")
+        
+        if target == 'primary' or target == sa_email:
+            print("\n!!! CRITICAL WARNING !!!")
+            print(f"You are saving events to the Service Account's OWN calendar ('{target}').")
+            print("You will NOT see these on your personal Gmail unless you explicitly add/share the Service Account's calendar.")
+            print("FIX: Set GOOGLE_CALENDAR_ID secret to your PERSONAL GMAIL address.")
+            print("!!! ------------------ !!!\n")
+            
     except ValueError as e:
         print(f"Google Calendar Auth Failed: {e}")
         return
