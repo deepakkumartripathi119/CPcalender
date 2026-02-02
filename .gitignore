@@ -1,9 +1,8 @@
 # Secrets
-contestsync-66da12dff3fa.json
 *.json
+*.env
 token.json
 credentials.json
-*.env
 
 # Python
 __pycache__/
@@ -13,3 +12,9 @@ venv/
 env/
 .idea/
 .vscode/
+
+# Debug scripts
+debug_*.py
+
+# Virtual Environment
+.venv/
