@@ -4,8 +4,14 @@ from platforms import codeforces, leetcode, codechef, atcoder
 
 def main():
     # 1. Validate environment
+    print("--- CP Calendar Sync Starting ---")
     try:
         config.validate_config()
+        print(f"Target Calendar: {config.TARGET_CALENDAR_ID}")
+        if config.TARGET_CALENDAR_ID == 'primary':
+            print("WARNING: Using Service Account's primary calendar (default).") 
+            print("Expected behavior? If not, check GOOGLE_CALENDAR_ID secret.")
+            
     except EnvironmentError as e:
         print(f"Startup Error: {e}")
         print("Please ensure you have set the necessary environment variables.")
