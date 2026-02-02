@@ -103,12 +103,25 @@ python tests/test_integration.py
 
 ---
 
+## 🧹 Maintenance (Cleanup)
+
+If you want to remove ALL events created by this bot (e.g., to reset your calendar or after testing), run:
+
+```bash
+python clean_calendar.py
+```
+
+_Note: This detects events starting with prefixes `cf`, `lc`, `cc`, `ac`, and `testint`._
+
+---
+
 ## Directory Structure
 
 ```text
 CPcalender/
-├── main.py                     # Entry point
+├── main.py                     # Entry point (Orchestrator)
 ├── config.py                   # Configuration manager
+├── clean_calendar.py           # Safety tool to wipe bot events
 ├── platforms/                  # Platform specific logic
 ├── utils/                      # Helper modules (Calendar, API)
 └── tests/                      # Integration tests
