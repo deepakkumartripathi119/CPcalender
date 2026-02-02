@@ -1,8 +1,8 @@
-name: Sync Codeforces to Calendar
+name: Sync Contests to Calendar
 
 on:
   schedule:
-    - cron: '0 * * * *' # Runs every day at midnight UTC
+    - cron: "0 * * * *" # Runs every day at every hour :00 minute
   workflow_dispatch: # Allows you to click "Run" manually to test it
 
 jobs:
@@ -10,19 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-    - name: Run Sync Script
-      env:
-        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      run: python main.py
+      - name: Run Sync Script
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          CLIST_USERNAME: ${{ secrets.CLIST_USERNAME }}
+          CLIST_API_KEY: ${{ secrets.CLIST_API_KEY }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+        run: python main.py
