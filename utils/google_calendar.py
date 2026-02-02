@@ -74,6 +74,16 @@ def add_to_calendar(service, contest):
         print(f"ADDED: {contest['name']}")
     except HttpError as error:
         if error.resp.status == 409:
-            print(f"EXISTS: {contest['name']}")
+            # Check if it's because the event is cancelled (deleted)
+            try:
+                existing = service.events().get(calendarId=config.TARGET_CALENDAR_ID, eventId=unique_id).execute()
+                if existing['status'] == 'cancelled':
+                    print(f"REVIVING: {contest['name']} (was deleted)")
+                    event_body['status'] = 'confirmed'
+                    service.events().update(calendarId=config.TARGET_CALENDAR_ID, eventId=unique_id, body=event_body).execute()
+                else:
+                    print(f"EXISTS: {contest['name']}")
+            except Exception as e:
+                print(f"EXISTS (Error checking status): {e}")
         else:
             print(f"Error adding {contest['name']}: {error}")
